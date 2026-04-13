@@ -4,41 +4,422 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Accountancy — topper.dost</title>
-  <meta name="description" content="Class 11th Accountancy chapters — real talk, relatable examples." />
   <link rel="stylesheet" href="style.css" />
+  <style>
+    :root {
+      --amber: #f5a623;
+      --amber-dim: rgba(245, 166, 35, 0.08);
+      --amber-border: rgba(245, 166, 35, 0.25);
+    }
+
+    /* Animated numbers background */
+    .numbers-bg {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .num-float {
+      position: absolute;
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      color: rgba(245, 166, 35, 0.04);
+      letter-spacing: 0.1em;
+      animation: floatUp linear infinite;
+      white-space: nowrap;
+    }
+
+    @keyframes floatUp {
+      0%   { transform: translateY(110vh); opacity: 0; }
+      10%  { opacity: 1; }
+      90%  { opacity: 1; }
+      100% { transform: translateY(-10vh); opacity: 0; }
+    }
+
+    /* ACC specific colors */
+    .acc-tag {
+      display: inline-block;
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      background: var(--amber-dim);
+      color: var(--amber);
+      padding: 4px 12px;
+      border-radius: 20px;
+      border: 1px solid var(--amber-border);
+    }
+
+    .acc-eyebrow {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 0.75rem;
+      opacity: 0;
+      animation: fadeUp 0.5s ease forwards 0.1s;
+    }
+
+    /* COVER SECTION */
+    .acc-cover {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 6rem 2rem 4rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .acc-cover::before {
+      content: '';
+      position: absolute;
+      top: -10%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(circle, rgba(245,166,35,0.06) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .acc-main-title {
+      font-family: var(--font-display);
+      font-size: clamp(4rem, 14vw, 11rem);
+      letter-spacing: 0.04em;
+      line-height: 0.88;
+      color: var(--text-primary);
+      margin: 1.5rem 0;
+      opacity: 0;
+      animation: fadeUp 0.7s ease forwards 0.3s;
+    }
+
+    .acc-main-title .dot { color: var(--amber); }
+
+    .acc-tagline {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      max-width: 440px;
+      line-height: 1.7;
+      border-left: 2px solid var(--amber-border);
+      padding-left: 1.25rem;
+      text-align: left;
+      margin: 0 auto 3rem;
+      opacity: 0;
+      animation: fadeUp 0.7s ease forwards 0.5s;
+    }
+
+    .acc-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: var(--amber);
+      color: #0a0a0b;
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      padding: 0.9rem 2.2rem;
+      border-radius: 2px;
+      text-decoration: none;
+      transition: opacity 0.2s, transform 0.15s;
+      opacity: 0;
+      animation: fadeUp 0.7s ease forwards 0.7s;
+    }
+
+    .acc-btn:hover { opacity: 0.85; transform: translateY(-2px); }
+
+    /* DEBIT CREDIT ANIMATION */
+    .debit-credit-row {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards 0.2s;
+    }
+
+    .dc-pill {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      letter-spacing: 0.15em;
+      padding: 6px 18px;
+      border-radius: 2px;
+    }
+
+    .dc-pill.debit {
+      background: var(--amber-dim);
+      color: var(--amber);
+      border: 1px solid var(--amber-border);
+    }
+
+    .dc-pill.credit {
+      background: var(--green-dim);
+      color: var(--green);
+      border: 1px solid var(--green-border);
+    }
+
+    .dc-equals {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      color: var(--text-muted);
+    }
+
+    /* CHAPTERS SECTION */
+    .acc-chapters-wrap {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem 2rem 4rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .part-label {
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin: 2rem 0 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .part-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1rem;
+    }
+
+    .chapter-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1.25rem;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      transition: border-color 0.2s, transform 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .chapter-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--amber);
+      transform: scaleX(0);
+      transition: transform 0.3s;
+      transform-origin: left;
+    }
+
+    .chapter-card:hover {
+      border-color: var(--amber-border);
+      transform: translateY(-2px);
+    }
+
+    .chapter-card:hover::before { transform: scaleX(1); }
+
+    .chapter-card.disabled {
+      opacity: 0.4;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .ch-num {
+      font-family: var(--font-display);
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      color: var(--amber);
+    }
+
+    .ch-name {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      line-height: 1.4;
+    }
+
+    .ch-desc {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .ch-cta {
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--amber);
+      margin-top: 0.25rem;
+      letter-spacing: 0.05em;
+    }
+
+    @media (max-width: 600px) {
+      .acc-cover { padding: 5rem 1.25rem 2rem; }
+      .acc-chapters-wrap { padding: 1rem 1.25rem 3rem; }
+      .chapters-grid { grid-template-columns: 1fr; }
+      .debit-credit-row { gap: 1rem; }
+    }
+  </style>
 </head>
 <body>
 
-  <!-- NAV -->
+  <!-- Floating numbers background -->
+  <div class="numbers-bg" id="numBg"></div>
+
   <nav class="nav">
     <a href="index.html" class="nav-brand">topper<span>.</span>dost</a>
-    <span class="nav-pill">Accountancy</span>
+    <span class="nav-pill" style="background: rgba(245,166,35,0.1); color: #f5a623; border-color: rgba(245,166,35,0.25);">Accountancy</span>
   </nav>
 
-  <main class="subjects-wrap">
+  <!-- COVER -->
+  <div class="acc-cover">
 
-    <a href="subjects.html" class="back-link">← Back to Subjects</a>
+    <div class="debit-credit-row">
+      <span class="dc-pill debit">DR. DEBIT</span>
+      <span class="dc-equals">=</span>
+      <span class="dc-pill credit">CR. CREDIT</span>
+    </div>
 
-    <p class="page-eyebrow">Class 11th · Accountancy</p>
-    <h1 class="page-title">ACC<br>CHAPTERS</h1>
-    <p class="page-desc">
-      Numbers se darna band karo. Debit Credit — ek baar samjho, life mein kaam aayega.
+    <p class="acc-eyebrow">Class 11th · Accountancy</p>
+
+    <h1 class="acc-main-title">
+      ACCOUN<span class="dot">-</span><br>TANCY
+    </h1>
+
+    <p class="acc-tagline">
+      Debit Credit — understand it once, use it for life.<br>
+      No more confusion. No more fear of numbers.<br>
+      Just logic, explained the way it should be.
     </p>
 
-    <div class="subjects-grid">
+    <a href="#chapters" class="acc-btn">View All Chapters ↓</a>
 
-      <a href="acc-ch1.html" class="subject-card">
-        <span class="subject-tag">Chapter 1</span>
-        <p class="subject-name" style="margin-top: 0.5rem; font-size: 1.4rem; line-height: 1.2;">Coming Soon</p>
-        <div class="subject-lines">
-          <span class="subject-line">Aditya likh raha hai — jaldi aayega</span>
-        </div>
-        <span class="subject-cta">Coming Soon</span>
+  </div>
+
+  <!-- CHAPTERS -->
+  <div class="acc-chapters-wrap" id="chapters">
+
+    <p class="part-label">Part 1 — Financial Accounting I</p>
+
+    <div class="chapters-grid">
+
+      <a href="acc-ch1.html" class="chapter-card">
+        <span class="ch-num">Chapter 01</span>
+        <p class="ch-name">Introduction to Accounting</p>
+        <p class="ch-desc">Meaning, objectives, and importance — why accounting exists</p>
+        <span class="ch-cta">Read Now →</span>
       </a>
+
+      <div class="chapter-card disabled">
+        <span class="ch-num">Chapter 02</span>
+        <p class="ch-name">Theory Base of Accounting</p>
+        <p class="ch-desc">Concepts, principles, and standards</p>
+        <span class="ch-cta">Coming Soon</span>
+      </div>
+
+      <div class="chapter-card disabled">
+        <span class="ch-num">Chapter 03</span>
+        <p class="ch-name">Recording of Transactions — I</p>
+        <p class="ch-desc">Vouchers, journal entries, and accounting equations</p>
+        <span class="ch-cta">Coming Soon</span>
+      </div>
+
+      <div class="chapter-card disabled">
+        <span class="ch-num">Chapter 04</span>
+        <p class="ch-name">Recording of Transactions — II</p>
+        <p class="ch-desc">Ledger, cash book, and special purpose books</p>
+        <span class="ch-cta">Coming Soon</span>
+      </div>
+
+      <div class="chapter-card disabled">
+        <span class="ch-num">Chapter 05</span>
+        <p class="ch-name">Bank Reconciliation Statement</p>
+        <p class="ch-desc">Matching bank balances — why they never match</p>
+        <span class="ch-cta">Coming Soon</span>
+      </div>
+
+      <div class="chapter-card disabled">
+        <span class="ch-num">Chapter 06</span>
+        <p class="ch-name">Trial Balance & Rectification of Errors</p>
+        <p class="ch-desc">Checking accuracy and correcting errors</p>
+        <span class="ch-cta">Coming Soon</span>
+      </div>
+
+      <div class="chapter-card disabled">
+        <span class="ch-num">Chapter 07</span>
+        <p class="ch-name">Depreciation, Provisions & Reserves</p>
+        <p class="ch-desc">Accounting for asset wear and tear</p>
+        <span class="ch-cta">Coming Soon</span>
+      </div>
+
+      <div class="chapter-card disabled">
+        <span class="ch-num">Chapter 08</span>
+        <p class="ch-name">Bills of Exchange</p>
+        <p class="ch-desc">Accounting treatment for negotiable instruments</p>
+        <span class="ch-cta">Coming Soon</span>
+      </div>
 
     </div>
 
-  </main>
+    <p class="part-label" style="margin-top: 3rem;">Part 2 — Financial Accounting II</p>
+
+    <div class="chapters-grid">
+
+      <div class="chapter-card disabled">
+        <span class="ch-num">Chapter 09</span>
+        <p class="ch-name">Financial Statements — I</p>
+        <p class="ch-desc">Trading and Profit & Loss Account</p>
+        <span class="ch-cta">Coming Soon</span>
+      </div>
+
+      <div class="chapter-card disabled">
+        <span class="ch-num">Chapter 10</span>
+        <p class="ch-name">Financial Statements — II</p>
+        <p class="ch-desc">Balance Sheet and adjustments</p>
+        <span class="ch-cta">Coming Soon</span>
+      </div>
+
+      <div class="chapter-card disabled">
+        <span class="ch-num">Chapter 11</span>
+        <p class="ch-name">Accounts from Incomplete Records</p>
+        <p class="ch-desc">Statement of affairs method</p>
+        <span class="ch-cta">Coming Soon</span>
+      </div>
+
+      <div class="chapter-card disabled">
+        <span class="ch-num">Chapter 12</span>
+        <p class="ch-name">Applications of Computers in Accounting</p>
+        <p class="ch-desc">Introduction to computerized systems</p>
+        <span class="ch-cta">Coming Soon</span>
+      </div>
+
+      <div class="chapter-card disabled">
+        <span class="ch-num">Chapter 13</span>
+        <p class="ch-name">Computerised Accounting System</p>
+        <p class="ch-desc">Practical application of computers</p>
+        <span class="ch-cta">Coming Soon</span>
+      </div>
+
+    </div>
+
+  </div>
 
   <footer>
     <div class="footer-credit">
@@ -47,6 +428,21 @@
     </div>
     <div class="footer-copy">© 2026 topper.dost</div>
   </footer>
+
+  <script>
+    const terms = ['DR','CR','Assets','Liability','Capital','Debit','Credit','Ledger','Journal','Balance','Profit','Loss','Stock','TISCO','Voucher','Revenue','Expense','Goodwill','Drawings','Debtors','Creditors','Trial','P&L','B/S'];
+    const bg = document.getElementById('numBg');
+    terms.forEach((t, i) => {
+      const el = document.createElement('div');
+      el.className = 'num-float';
+      el.textContent = t;
+      el.style.left = (Math.random() * 95) + '%';
+      el.style.animationDuration = (12 + Math.random() * 18) + 's';
+      el.style.animationDelay = (Math.random() * 15) + 's';
+      el.style.fontSize = (0.8 + Math.random() * 1.2) + 'rem';
+      bg.appendChild(el);
+    });
+  </script>
 
 </body>
 </html>
