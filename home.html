@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Class 11th Commerce — topper.dost</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .home-wrap {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Animated ticker */
+    .ticker-wrap {
+      width: 100%;
+      background: var(--green);
+      overflow: hidden;
+      padding: 0.5rem 0;
+      position: relative;
+      z-index: 10;
+    }
+
+    .ticker-track {
+      display: flex;
+      gap: 3rem;
+      animation: ticker 25s linear infinite;
+      width: max-content;
+    }
+
+    .ticker-item {
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      letter-spacing: 0.15em;
+      color: #0a0a0b;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .ticker-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: #0a0a0b;
+      opacity: 0.4;
+    }
+
+    @keyframes ticker {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* MAIN CONTENT */
+    .home-main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 4rem 2rem 2rem;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* BIG BACKGROUND TEXT */
+    .home-bg-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: var(--font-display);
+      font-size: clamp(8rem, 20vw, 18rem);
+      letter-spacing: 0.02em;
+      color: rgba(255,255,255,0.02);
+      white-space: nowrap;
+      pointer-events: none;
+      user-select: none;
+      z-index: 0;
+    }
+
+    .home-eyebrow {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.5s ease forwards 0.2s;
+      position: relative;
+      z-index: 2;
+    }
+
+    .home-title {
+      font-family: var(--font-display);
+      font-size: clamp(3.5rem, 10vw, 9rem);
+      letter-spacing: 0.03em;
+      line-height: 0.88;
+      color: var(--text-primary);
+      margin-bottom: 1rem;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards 0.35s;
+      position: relative;
+      z-index: 2;
+    }
+
+    .home-title .line2 {
+      color: var(--green);
+      display: block;
+    }
+
+    .home-title .line3 {
+      color: var(--text-secondary);
+      display: block;
+      font-size: 0.45em;
+      letter-spacing: 0.15em;
+      margin-top: 0.5rem;
+    }
+
+    .home-tagline {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      margin-bottom: 3.5rem;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards 0.5s;
+      position: relative;
+      z-index: 2;
+      font-style: italic;
+    }
+
+    .home-tagline span { color: var(--green); font-style: normal; }
+
+    /* SUBJECT CARDS */
+    .home-subjects {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      width: 100%;
+      max-width: 800px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards 0.7s;
+      position: relative;
+      z-index: 2;
+    }
+
+    .home-subject {
+      background: var(--bg-card);
+      padding: 1.5rem 1.25rem;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      border-right: 1px solid var(--border);
+      transition: background 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .home-subject:last-child { border-right: none; }
+
+    .home-subject::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      transform: scaleX(0);
+      transition: transform 0.3s;
+      transform-origin: left;
+    }
+
+    .home-subject.eco::after  { background: var(--green); }
+    .home-subject.acc::after  { background: #f5a623; }
+    .home-subject.bst::after  { background: #7F77DD; }
+
+    .home-subject:hover { background: var(--bg-2); }
+    .home-subject:hover::after { transform: scaleX(1); }
+
+    .subj-num {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    .subj-name {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      letter-spacing: 0.05em;
+      color: var(--text-primary);
+      line-height: 1;
+    }
+
+    .home-subject.eco .subj-name { color: var(--green); }
+    .home-subject.acc .subj-name { color: #f5a623; }
+    .home-subject.bst .subj-name { color: #7F77DD; }
+
+    .subj-desc {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .subj-arrow {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+      transition: transform 0.2s, color 0.2s;
+    }
+
+    .home-subject.eco:hover .subj-arrow { color: var(--green); transform: translateX(4px); }
+    .home-subject.acc:hover .subj-arrow { color: #f5a623; transform: translateX(4px); }
+    .home-subject.bst:hover .subj-arrow { color: #7F77DD; transform: translateX(4px); }
+
+    /* BOTTOM */
+    .home-bottom {
+      padding: 1.5rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid var(--border);
+      position: relative;
+      z-index: 2;
+    }
+
+    .home-credit {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
+    .home-credit a { color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+    .home-credit a:hover { color: var(--green); }
+
+    .home-brand {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      letter-spacing: 0.06em;
+      color: var(--text-primary);
+    }
+
+    .home-brand span { color: var(--green); }
+
+    @media (max-width: 600px) {
+      .home-subjects { grid-template-columns: 1fr; }
+      .home-subject { border-right: none; border-bottom: 1px solid var(--border); }
+      .home-subject:last-child { border-bottom: none; }
+      .home-bottom { flex-direction: column; gap: 0.5rem; text-align: center; }
+      .ticker-wrap { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="home-wrap">
+
+  <!-- TICKER -->
+  <div class="ticker-wrap">
+    <div class="ticker-track">
+      <span class="ticker-item">ECONOMICS <span class="ticker-dot"></span></span>
+      <span class="ticker-item">BUSINESS STUDIES <span class="ticker-dot"></span></span>
+      <span class="ticker-item">ACCOUNTANCY <span class="ticker-dot"></span></span>
+      <span class="ticker-item">INDIAN ECONOMIC DEVELOPMENT <span class="ticker-dot"></span></span>
+      <span class="ticker-item">STATISTICS FOR ECONOMICS <span class="ticker-dot"></span></span>
+      <span class="ticker-item">CLASS 11TH COMMERCE <span class="ticker-dot"></span></span>
+      <span class="ticker-item">ECONOMICS <span class="ticker-dot"></span></span>
+      <span class="ticker-item">BUSINESS STUDIES <span class="ticker-dot"></span></span>
+      <span class="ticker-item">ACCOUNTANCY <span class="ticker-dot"></span></span>
+      <span class="ticker-item">INDIAN ECONOMIC DEVELOPMENT <span class="ticker-dot"></span></span>
+      <span class="ticker-item">STATISTICS FOR ECONOMICS <span class="ticker-dot"></span></span>
+      <span class="ticker-item">CLASS 11TH COMMERCE <span class="ticker-dot"></span></span>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="home-main">
+
+    <div class="home-bg-text">11</div>
+
+    <p class="home-eyebrow">topper.dost · 2026</p>
+
+    <h1 class="home-title">
+      CLASS
+      <span class="line2">11TH</span>
+      <span class="line3">COMPLETE COMMERCE</span>
+    </h1>
+
+    <p class="home-tagline">
+      Class 11th Commerce —
+      <span>the way it should've been taught.</span>
+    </p>
+
+    <div class="home-subjects">
+
+      <a href="eco-chapters.html" class="home-subject eco">
+        <span class="subj-num">01 · Subject</span>
+        <span class="subj-name">ECO</span>
+        <span class="subj-desc">Paisa, market aur duniya — sab yahan samjho</span>
+        <span class="subj-arrow">→</span>
+      </a>
+
+      <a href="acc-chapters.html" class="home-subject acc">
+        <span class="subj-num">02 · Subject</span>
+        <span class="subj-name">ACC</span>
+        <span class="subj-desc">Debit Credit — understand it once, use it for life</span>
+        <span class="subj-arrow">→</span>
+      </a>
+
+      <a href="bst-chapters.html" class="home-subject bst">
+        <span class="subj-num">03 · Subject</span>
+        <span class="subj-name">BST</span>
+        <span class="subj-desc">Business kaise chalta hai — finally samjho</span>
+        <span class="subj-arrow">→</span>
+      </a>
+
+    </div>
+
+  </div>
+
+  <!-- BOTTOM -->
+  <div class="home-bottom">
+    <div class="home-credit">
+      Composed and Edited by Aditya &nbsp;·&nbsp;
+      <a href="mailto:aditya.workmail@gmail.com">aditya.workmail@gmail.com</a>
+      &nbsp;·&nbsp; © 2026 topper.dost
+    </div>
+    <div class="home-brand">topper<span>.</span>dost</div>
+  </div>
+
+</div>
+
+</body>
+</html>
