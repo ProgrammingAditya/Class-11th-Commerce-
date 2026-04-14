@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Business Studies — topper.dost</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    :root { --purple: #7F77DD; --purple-dim: rgba(127,119,221,0.08); --purple-border: rgba(127,119,221,0.25); }
+
+    .biz-bg {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none; overflow: hidden; z-index: 0;
+    }
+    .biz-float {
+      position: absolute;
+      font-family: var(--font-display);
+      color: rgba(127,119,221,0.04);
+      letter-spacing: 0.1em;
+      animation: floatUp linear infinite;
+      white-space: nowrap;
+    }
+    @keyframes floatUp {
+      0%   { transform: translateY(110vh); opacity: 0; }
+      10%  { opacity: 1; }
+      90%  { opacity: 1; }
+      100% { transform: translateY(-10vh); opacity: 0; }
+    }
+
+    .bst-cover {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 6rem 2rem 4rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .bst-cover::before {
+      content: '';
+      position: absolute;
+      top: -10%; left: 50%;
+      transform: translateX(-50%);
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(127,119,221,0.07) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .bst-pills {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeUp 0.5s ease forwards 0.2s;
+    }
+
+    .bst-pill {
+      font-family: var(--font-display);
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      padding: 5px 14px;
+      border-radius: 2px;
+      border: 1px solid var(--purple-border);
+      color: var(--purple);
+      background: var(--purple-dim);
+    }
+
+    .bst-title {
+      font-family: var(--font-display);
+      font-size: clamp(4rem, 13vw, 10rem);
+      letter-spacing: 0.04em;
+      line-height: 0.88;
+      color: var(--text-primary);
+      margin: 1rem 0;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards 0.35s;
+      position: relative; z-index: 2;
+    }
+
+    .bst-title .dot { color: var(--purple); }
+
+    .bst-tagline {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      max-width: 440px;
+      line-height: 1.7;
+      border-left: 2px solid var(--purple-border);
+      padding-left: 1.25rem;
+      text-align: left;
+      margin: 1.5rem auto 3rem;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards 0.5s;
+    }
+
+    .bst-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: var(--purple);
+      color: #fff;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      padding: 0.9rem 2.2rem;
+      border-radius: 2px;
+      text-decoration: none;
+      transition: opacity 0.2s, transform 0.15s;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards 0.65s;
+    }
+    .bst-btn:hover { opacity: 0.85; transform: translateY(-2px); }
+
+    /* CHAPTERS */
+    .bst-wrap {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem 2rem 5rem;
+      position: relative; z-index: 1;
+    }
+
+    .part-label {
+      font-size: 0.68rem; font-weight: 500;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--text-muted);
+      margin: 2rem 0 1rem;
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .part-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1rem;
+    }
+
+    .ch-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1.25rem;
+      text-decoration: none;
+      display: flex; flex-direction: column; gap: 0.6rem;
+      transition: border-color 0.2s, transform 0.2s;
+      position: relative; overflow: hidden;
+    }
+    .ch-card::before {
+      content: ''; position: absolute;
+      top: 0; left: 0; right: 0; height: 2px;
+      background: var(--purple);
+      transform: scaleX(0); transition: transform 0.3s; transform-origin: left;
+    }
+    .ch-card:hover { border-color: var(--purple-border); transform: translateY(-2px); }
+    .ch-card:hover::before { transform: scaleX(1); }
+
+    .ch-num { font-family: var(--font-display); font-size: 0.8rem; letter-spacing: 0.12em; color: var(--purple); }
+    .ch-name { font-size: 0.9rem; font-weight: 500; color: var(--text-primary); line-height: 1.4; }
+    .ch-desc { font-size: 0.78rem; color: var(--text-muted); line-height: 1.5; }
+    .ch-cta { font-size: 0.75rem; font-weight: 500; color: var(--purple); margin-top: 0.25rem; }
+
+    @media (max-width: 600px) {
+      .bst-cover { padding: 5rem 1.25rem 2rem; }
+      .bst-wrap { padding: 1rem 1.25rem 3rem; }
+      .chapters-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="biz-bg" id="bizBg"></div>
+
+<nav class="nav">
+  <a href="index.html" class="nav-brand">topper<span>.</span>dost</a>
+  <span class="nav-pill" style="background: rgba(127,119,221,0.1); color: #7F77DD; border-color: rgba(127,119,221,0.25);">Business Studies</span>
+</nav>
+
+<div class="bst-cover">
+
+  <div class="bst-pills">
+    <span class="bst-pill">TRADE</span>
+    <span class="bst-pill">COMMERCE</span>
+    <span class="bst-pill">INDUSTRY</span>
+    <span class="bst-pill">PROFIT</span>
+    <span class="bst-pill">RISK</span>
+  </div>
+
+  <h1 class="bst-title">
+    BUSI<span class="dot">-</span><br>NESS
+  </h1>
+
+  <p class="bst-tagline">
+    Business kaise chalta hai — finally samjho.<br>
+    Trade, commerce, risk aur profit — sab kuch real examples ke saath.
+  </p>
+
+  <a href="#chapters" class="bst-btn">View All Chapters ↓</a>
+
+</div>
+
+<div class="bst-wrap" id="chapters">
+
+  <p class="part-label">Part I — Foundations of Business</p>
+  <div class="chapters-grid">
+
+    <a href="bst-ch1.html" class="ch-card">
+      <span class="ch-num">Chapter 01</span>
+      <p class="ch-name">Business, Trade and Commerce</p>
+      <p class="ch-desc">Human activities se business tak — origin story of money making</p>
+      <span class="ch-cta">Read Now →</span>
+    </a>
+
+    <a href="bst-ch2.html" class="ch-card">
+      <span class="ch-num">Chapter 02</span>
+      <p class="ch-name">Forms of Business Organisation</p>
+      <p class="ch-desc">Sole trader, partnership ya company — kaunsa best hai?</p>
+      <span class="ch-cta">Coming Soon →</span>
+    </a>
+
+    <a href="bst-ch3.html" class="ch-card">
+      <span class="ch-num">Chapter 03</span>
+      <p class="ch-name">Private, Public and Global Enterprises</p>
+      <p class="ch-desc">Tata vs Govt vs MNCs — teeno ka fark samjho</p>
+      <span class="ch-cta">Coming Soon →</span>
+    </a>
+
+    <a href="bst-ch4.html" class="ch-card">
+      <span class="ch-num">Chapter 04</span>
+      <p class="ch-name">Business Services</p>
+      <p class="ch-desc">Banking, insurance, transport — dhande ke support system</p>
+      <span class="ch-cta">Coming Soon →</span>
+    </a>
+
+    <a href="bst-ch5.html" class="ch-card">
+      <span class="ch-num">Chapter 05</span>
+      <p class="ch-name">Emerging Modes of Business</p>
+      <p class="ch-desc">E-commerce, BPO — naye zamane ka dhanda</p>
+      <span class="ch-cta">Coming Soon →</span>
+    </a>
+
+    <a href="bst-ch6.html" class="ch-card">
+      <span class="ch-num">Chapter 06</span>
+      <p class="ch-name">Social Responsibilities of Business and Business Ethics</p>
+      <p class="ch-desc">Sirf paisa nahi — society ka bhi dhyan rakhna padta hai</p>
+      <span class="ch-cta">Coming Soon →</span>
+    </a>
+
+  </div>
+
+  <p class="part-label" style="margin-top: 3rem;">Part II — Corporate Organisation, Finance and Trade</p>
+  <div class="chapters-grid">
+
+    <a href="bst-ch7.html" class="ch-card">
+      <span class="ch-num">Chapter 07</span>
+      <p class="ch-name">Formation of a Company</p>
+      <p class="ch-desc">Company kaise banti hai — steps aur documents</p>
+      <span class="ch-cta">Coming Soon →</span>
+    </a>
+
+    <a href="bst-ch8.html" class="ch-card">
+      <span class="ch-num">Chapter 08</span>
+      <p class="ch-name">Sources of Business Finance</p>
+      <p class="ch-desc">Paisa kahan se aata hai — shares, debentures, loans</p>
+      <span class="ch-cta">Coming Soon →</span>
+    </a>
+
+    <a href="bst-ch9.html" class="ch-card">
+      <span class="ch-num">Chapter 09</span>
+      <p class="ch-name">MSME and Business Entrepreneurship</p>
+      <p class="ch-desc">Chota dhanda, badi soch — MSME ka scene</p>
+      <span class="ch-cta">Coming Soon →</span>
+    </a>
+
+    <a href="bst-ch10.html" class="ch-card">
+      <span class="ch-num">Chapter 10</span>
+      <p class="ch-name">Internal Trade</p>
+      <p class="ch-desc">Desh ke andar ka maal ka chakkar — wholesale aur retail</p>
+      <span class="ch-cta">Coming Soon →</span>
+    </a>
+
+    <a href="bst-ch11.html" class="ch-card">
+      <span class="ch-num">Chapter 11</span>
+      <p class="ch-name">International Business</p>
+      <p class="ch-desc">Import, export aur global trade — duniya se dhanda</p>
+      <span class="ch-cta">Coming Soon →</span>
+    </a>
+
+  </div>
+</div>
+
+<footer>
+  <div class="footer-credit">
+    Composed and Edited by Aditya &nbsp;·&nbsp;
+    <a href="mailto:aditya.workmail@gmail.com">aditya.workmail@gmail.com</a>
+  </div>
+  <div class="footer-copy">© 2026 topper.dost</div>
+</footer>
+
+<script>
+  const terms = ['TRADE','PROFIT','RISK','COMMERCE','INDUSTRY','EXPORT','IMPORT','MARKET','BUSINESS','RETAIL','WHOLESALE','TRANSPORT','BANKING','INSURANCE','WAREHOUSING','ADVERTISING','PRIMARY','SECONDARY','TERTIARY','LOSS','GAIN','SPECULATION','EMPLOYMENT','PROFESSION'];
+  const bg = document.getElementById('bizBg');
+  terms.forEach((t) => {
+    const el = document.createElement('div');
+    el.className = 'biz-float';
+    el.textContent = t;
+    el.style.left = (Math.random() * 95) + '%';
+    el.style.animationDuration = (12 + Math.random() * 20) + 's';
+    el.style.animationDelay = (Math.random() * 15) + 's';
+    el.style.fontSize = (0.8 + Math.random() * 1.4) + 'rem';
+    bg.appendChild(el);
+  });
+</script>
+
+</body>
+</html>
